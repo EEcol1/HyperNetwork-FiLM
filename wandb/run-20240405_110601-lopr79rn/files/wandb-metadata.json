@@ -1,0 +1,78 @@
+{
+    "os": "Linux-5.15.133.1-microsoft-standard-WSL2-x86_64-with-glibc2.17",
+    "python": "3.8.18",
+    "heartbeatAt": "2024-04-05T02:06:02.206175",
+    "startedAt": "2024-04-05T02:06:01.366618",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "train.py",
+    "codePathLocal": "train.py",
+    "codePath": "film/train.py",
+    "git": {
+        "remote": "https://github.com/EEcol1/ewc_new.git",
+        "commit": "81cbb23c7bb987d65bf0619a6a47d2cb39406192"
+    },
+    "email": null,
+    "root": "/mnt/c/Users/User/Documents/2024_1",
+    "host": "DESKTOP-P7UMM9L",
+    "username": "eecol1",
+    "executable": "/home/eecol1/anaconda3/envs/crl/bin/python",
+    "cpu_count": 6,
+    "cpu_count_logical": 6,
+    "cpu_freq": {
+        "current": 2903.999,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2903.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2903.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2903.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2903.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2903.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2903.999,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 1006.853931427002,
+            "used": 41.918212890625
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 2070 SUPER",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 2070 SUPER",
+            "memory_total": 8589934592
+        }
+    ],
+    "memory": {
+        "total": 7.7308502197265625
+    }
+}
