@@ -5,7 +5,7 @@ import torch.nn.functional as F
 import utils
 import math
 import random
-from utils import element_Linear
+from utils import element_Linear,Linear2
 # ----------------------------------------------------------------------------
 # MAIN NETWORK
 def set_random_seed(random_seed: int):
@@ -118,12 +118,17 @@ class HyperNetwork(nn.Module):
             self.linear_layers.append(nn.Linear(in_features, out_features, bias=self.use_bias))
             if i <len(dims)-2:
                 self.element_linear_layers.append(element_Linear(out_features,num_tasks))
+                #self.element_linear_layers.append(Linear2(out_features,out_features,num_tasks))
+                
 
-        self.linear_parameters=[linear_layer.parameters() for linear_layer in self.linear_layers]
+        self.linear_parameters=[]
+        for linear_layer in self.linear_layers:
+            self.linear_parameters+=linear_layer.parameters()
         
         self.element_parameters=[]
         for element_layer in self.element_linear_layers:
             self.element_parameters+=element_layer.parameters()
+        
         
     
     @property

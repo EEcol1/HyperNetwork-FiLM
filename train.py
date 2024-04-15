@@ -12,7 +12,7 @@ import numpy as np
 import sac
 from sac import ReplayBuffer,SACPolicy,Actor,ContinuousCritic
 from sac import collect_rollouts,update_networks,evaluate_policy,evaluate_crl_metrics
-from utils import CW5_sequence
+from utils import CW10_sequence
 from normalization import RunningMeanStd
 import wandb
 
@@ -21,7 +21,7 @@ sac.set_random_seed(seed)
 
 
 wandb_log=True
-nb_tasks=5
+nb_tasks=10
 state_dim = 39
 action_dim = 4
 hidden_dim= 400
@@ -43,7 +43,7 @@ target_update_interval= 2
 continual=True
 config={
     "task_id": 0,
-    "env_name" : f"{CW5_sequence[0]}-v2-goal-observable",
+    "env_name" : f"{CW10_sequence[0]}-v2-goal-observable",
     "nb_tasks": nb_tasks,
     "state_dim" : state_dim,
     "action_dim" : action_dim,
@@ -77,7 +77,7 @@ normalizers={
 
 for task_id in range(nb_tasks):
 
-    env_name=CW5_sequence[task_id]
+    env_name=CW10_sequence[task_id]
     print(task_id, env_name)
     
     config["task_id"]=task_id
@@ -87,7 +87,7 @@ for task_id in range(nb_tasks):
     env_name=config["env_name"]
     if wandb_log==True:
         wandb.init(project='film',config=config)
-        wandb.run.name = f"task{task_id}-{CW5_sequence[task_id]}-te{task_emb_dim}-hnet_dim{hnet_hidden_dims}"
+        wandb.run.name = f"task{task_id}-{CW10_sequence[task_id]}-te{task_emb_dim}-hnet_dim{hnet_hidden_dims}"
 
     # Initialize environment
     #env = gym.make(env_name) # Do not wrap with RecordVideo or it will cause problems later
@@ -114,7 +114,7 @@ for task_id in range(nb_tasks):
     #actor_emb_optimizer = torch.optim.Adam([torch.nn.Parameter(policy.actor.hnet.task_emb.weight[task_id],requires_grad=True)],lr=learning_rate) 
     #actor_emb_optimizer = torch.optim.Adam([policy.actor.hnet.task_emb[task_id]],lr=learning_rate) 
     if task_id ==0:
-        actor_optimizer=torch.optim.Adam(policy.actor.hnet.parameters(),lr=learning_rate)
+        actor_optimizer=torch.optim.Adam(policy.actor.hnet.linear_parameters,lr=learning_rate)
     else:
         actor_optimizer=torch.optim.Adam(policy.actor.hnet.element_parameters,lr=learning_rate)    
 
@@ -132,10 +132,10 @@ for task_id in range(nb_tasks):
     # # Initialize policy and CUDA device (GPU or CPU)
     # device = torch.device("cuda", 0) if torch.cuda.is_available() else torch.device("cpu")
     # policy = SACPolicy(state_dim, action_dim,nb_tasks,num_hidden_layers,task_emb_dim,chunk_emb_dim,chunk_dim,hidden_dim).to(device) 
-    #if task_id==0 else torch.load(f"{CW5_sequence[task_id-1]}-v2-goal-observable-policy.pt")
+    #if task_id==0 else torch.load(f"{CW10_sequence[task_id-1]}-v2-goal-observable-policy.pt")
     if task_id>0 and continual==True:
         print("loading previous checkpoint...")
-        ckpt=torch.load(f"ckpt/{CW5_sequence[task_id-1]}-v2-goal-observable-policy.pt")
+        ckpt=torch.load(f"ckpt/{CW10_sequence[task_id-1]}-v2-goal-observable-policy.pt")
         for key,value in policy.state_dict().items():
             assert(value.shape==ckpt[key].shape)
         pretrained_dict=ckpt
@@ -145,8 +145,8 @@ for task_id in range(nb_tasks):
             print(f"{key}-updated")
         new_model_dict.update(pretrained_dict)
         policy.load_state_dict(new_model_dict)
-        state_stats=torch.load(f"norm/{CW5_sequence[task_id-1]}-v2-goal-observable-state.pt")
-        reward_stats=torch.load(f"norm/{CW5_sequence[task_id-1]}-v2-goal-observable-reward.pt")
+        state_stats=torch.load(f"norm/{CW10_sequence[task_id-1]}-v2-goal-observable-state.pt")
+        reward_stats=torch.load(f"norm/{CW10_sequence[task_id-1]}-v2-goal-observable-reward.pt")
         state_stats_normalizer.load_state_dict(state_stats)
         reward_stats_normalizer.load_state_dict(reward_stats)
 

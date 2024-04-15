@@ -14,7 +14,7 @@ from typing import NamedTuple, Union
 import numpy as np
 import model
 import utils
-from utils import CW5_sequence
+from utils import CW10_sequence
 
 seed=0
 def set_random_seed(random_seed: int):
@@ -360,7 +360,7 @@ def evaluate_crl_metrics(policy,device,normalizers,num_tasks=10,num_episodes=10)
     policy._set_to_eval()
     for curr_task_id in range(num_tasks):
         
-        env=ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[f"{CW5_sequence[curr_task_id]}-v2-goal-observable"](render_mode=None,seed=seed)
+        env=ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[f"{CW10_sequence[curr_task_id]}-v2-goal-observable"](render_mode=None,seed=seed)
         env.model.cam_pos[2]=[0.75,0.075,0.7]
         env._freeze_rand_vec= False
         env= gym.wrappers.TimeLimit(env,max_episode_steps=200)
